@@ -1,8 +1,13 @@
+using Core.Utilities.Results;
 using Entities.Concrete;
 
 namespace Business.Abstract;
 
 public interface ICompanyService
 {
-    List<Company> GetAll();
+    IDataResult<List<Company>> GetAll();
+    IResult Add(Company company);
+    IResult Delete(Company company);
+    IResult Update(Company company);
+    IDataResult<Company> GetById(int companyId);
 }
