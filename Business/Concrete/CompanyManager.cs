@@ -43,4 +43,18 @@ public class CompanyManager:ICompanyService
     {
         return new SuccessDataResult<Company>(_companyDal.Get(c => c.Id == companyId));
     }
+
+    public IResult CompanyExists(Company company)
+    {
+        var result = _companyDal.Get(p => p.IsActive == true 
+                             && p.TaxDepartment == company.TaxDepartment 
+                             && p.TaxNumber == company.TaxNumber );
+        
+        if (result != null)
+        {
+            return new ErrorResult("Company already exists");
+        }
+
+        return new SuccessResult();
+    }
 }
