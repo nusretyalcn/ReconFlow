@@ -16,11 +16,13 @@ public class CompanyManager:ICompanyService
 
     public IDataResult<List<Company>> GetAll()
     {
-        return new SuccessDataResult<List<Company>>(_companyDal.GetAll(), Messages.CompaniesListed);
+        return new SuccessDataResult<List<Company>>(_companyDal.GetAll(p=>p.IsActive==true), Messages.CompaniesListed);
     }
 
     public IResult Add(Company company)
     {
+        company.AddedDate = DateTime.Now;
+        company.IsActive = true;
         _companyDal.Add(company);
         return new SuccessResult(Messages.CompanyAdded);
     }
