@@ -1,6 +1,7 @@
 using Autofac;
 using Business.Abstract;
 using Business.Concrete;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.Context;
@@ -35,5 +36,16 @@ public class AutofacBusinessModule : Module
         
         builder.RegisterType<MailParameterManager>().As<IMailParameterService>();
         builder.RegisterType<EfMailParameter>().As<IMailParameterDal>();
+
+        builder.RegisterType<AuthManager>().As<IAuthService>();
+        
+        builder.RegisterType<UserManager>().As<IUserService>();
+        builder.RegisterType<EfUserDal>().As<IUserDal>();
+
+        
+        
+        builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
+
     }
 }

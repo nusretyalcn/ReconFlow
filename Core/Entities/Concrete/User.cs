@@ -11,6 +11,6 @@ public class User:IEntity
     public DateTime AddedDate { get; set; }
     public bool IsActive { get; set; }
     public bool IsEmailConfirm { get; set; }
-    public string MailConfirmValue { get; set; }
+    public string? MailConfirmValue { get; set; }
     public DateTime MailConfirmDate { get; set; }
 }
