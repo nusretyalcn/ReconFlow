@@ -20,12 +20,12 @@ public class JwtHelper:ITokenHelper
         _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
             
     }
-    public AccessToken CreateToken(User user, List<OperationClaim> operationClaims, int companyId)
+    public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)
     {
         _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
         var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
         var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);
-        var jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, operationClaims, companyId);
+        var jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, operationClaims);
         var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         var token = jwtSecurityTokenHandler.WriteToken(jwt);
 
@@ -38,7 +38,7 @@ public class JwtHelper:ITokenHelper
     }
 
     public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user, 
-        SigningCredentials signingCredentials, List<OperationClaim> operationClaims , int companyId)
+        SigningCredentials signingCredentials, List<OperationClaim> operationClaims)
     {
         var jwt = new JwtSecurityToken(
             issuer:tokenOptions.Issuer,

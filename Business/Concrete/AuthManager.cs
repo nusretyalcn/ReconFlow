@@ -64,10 +64,10 @@ public class AuthManager: IAuthService
         return new SuccessResult();
     }
 
-    public IDataResult<AccessToken> CreateAccessToken(User user, int companyId)
+    public IDataResult<AccessToken> CreateAccessToken(User user)
     {
-        var claims = _userService.GetClaims(user, companyId);
-        var accessToken = _tokenHelper.CreateToken(user, claims.Data, companyId);
+        var claims = _userService.GetClaims(user);
+        var accessToken = _tokenHelper.CreateToken(user, claims.Data);
         return new SuccessDataResult<AccessToken>(accessToken, "Token oluşturuldu");
     }
 }

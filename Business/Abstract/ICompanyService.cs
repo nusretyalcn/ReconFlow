@@ -10,5 +10,4 @@ public interface ICompanyService
     IResult Delete(Company company);
     IResult Update(Company company);
     IDataResult<Company> GetById(int companyId);
-    IResult CompanyExists(Company company);
 }

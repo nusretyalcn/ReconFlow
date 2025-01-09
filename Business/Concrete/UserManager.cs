@@ -1,5 +1,7 @@
 using Business.Abstract;
+using Business.Constants;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 
@@ -13,13 +15,14 @@ public class UserManager:IUserService
     {
         _userDal = userDal;
     }
-    public IDataResult<List<OperationClaim>> GetClaims(User user,int companyId)
+    public IDataResult<List<OperationClaim>> GetClaims(User user)
     {
-        return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user, companyId));
+        return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
     }
 
     public IResult Add(User user)
     {
+        BusinessRules.Run(IsUserExist(user));
         user.AddedDate = DateTime.Now;
         user.IsActive = true;
         _userDal.Add(user);
@@ -34,5 +37,12 @@ public class UserManager:IUserService
     public IDataResult<List<User>> GetAll()
     {
         return new SuccessDataResult<List<User>>(_userDal.GetAll());
+    }
+
+    public IResult IsUserExist(User user)
+    {
+        var result = _userDal.GetAll(p => p.Email == user.Email).Any();
+        if (result) return new ErrorResult(Messages.UserExist);
+        return new SuccessResult();
     }
 }

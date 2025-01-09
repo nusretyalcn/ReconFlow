@@ -1,5 +1,6 @@
 using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -21,6 +22,7 @@ public class CompanyManager:ICompanyService
 
     public IResult Add(Company company)
     {
+        BusinessRules.Run(IsCompanyExists(company));
         company.AddedDate = DateTime.Now;
         company.IsActive = true;
         _companyDal.Add(company);
@@ -44,13 +46,13 @@ public class CompanyManager:ICompanyService
         return new SuccessDataResult<Company>(_companyDal.Get(c => c.Id == companyId));
     }
 
-    public IResult CompanyExists(Company company)
+    private IResult IsCompanyExists(Company company)
     {
-        var result = _companyDal.Get(p => p.IsActive == true 
+        var result = _companyDal.GetAll(p => p.IsActive == true 
                              && p.TaxDepartment == company.TaxDepartment 
-                             && p.TaxNumber == company.TaxNumber );
+                             && p.TaxNumber == company.TaxNumber ).Any();
         
-        if (result != null)
+        if (result)
         {
             return new ErrorResult("Company already exists");
         }

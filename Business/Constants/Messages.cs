@@ -10,4 +10,5 @@ public static class Messages
     public static readonly string CompanyAdded = "Şirket eklendi";
     public static readonly string CompanyNameAlreadyExists = "Şirket ismi zaten mevcut";
     public static readonly string AuthorizationDenied = "Yetkiniz yok";
+    public static readonly string UserExist = "Kullanıcı zaten mevcut";
 }

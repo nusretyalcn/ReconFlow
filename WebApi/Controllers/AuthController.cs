@@ -29,7 +29,7 @@ namespace WebApplication1.Controllers
                 return BadRequest(userToLogin.Message);
             }
 
-            var result = _authService.CreateAccessToken(userToLogin.Data,0);
+            var result = _authService.CreateAccessToken(userToLogin.Data);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -48,7 +48,7 @@ namespace WebApplication1.Controllers
             }
 
             var registerResult = _authService.Register(userForRegisterDto,userForRegisterDto.Password);
-            var result = _authService.CreateAccessToken(registerResult.Data,0);
+            var result = _authService.CreateAccessToken(registerResult.Data);
             if (result.Success)
             {
                 return Ok(result.Data);
