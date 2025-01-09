@@ -5,7 +5,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework;
 
-public class EfCurrencyDal:EfEntityRepositoryBase<Currency,EfDbContext>,ICurrencyDal
+public class EfCurrentDal:EfEntityRepositoryBase<Current,EfDbContext>,ICurrencyDal
 {
     
 }

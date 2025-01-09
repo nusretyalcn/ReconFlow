@@ -2,7 +2,7 @@ using Core.Entities;
 
 namespace Entities.Concrete;
 
-public class CurrencyAccount:IEntity
+public class CurrentAccount:IEntity
 {
     public int Id { get; set; }
     public int CompanyId { get; set; }

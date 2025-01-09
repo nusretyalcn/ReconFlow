@@ -28,11 +28,11 @@ public class AutofacBusinessModule : Module
         builder.RegisterType<BaBsReconciliationDetailManager>().As<IBaBsReconciliationDetailService>();
         builder.RegisterType<EfBaBsReconciliationDetailDal>().As<IBaBsReconciliationDetailDal>();
         
-        builder.RegisterType<CurrencyManager>().As<ICurrencyService>();
-        builder.RegisterType<EfCurrencyDal>().As<ICurrencyDal>();
+        builder.RegisterType<CurrentManager>().As<ICurrentService>();
+        builder.RegisterType<EfCurrentDal>().As<ICurrencyDal>();
         
-        builder.RegisterType<CurrencyAccountManager>().As<ICurrencyAccountService>();
-        builder.RegisterType<EfCurrencyAccountDal>().As<ICurrencyAccountDal>();
+        builder.RegisterType<CurrentAccountManager>().As<ICurrentAccountService>();
+        builder.RegisterType<EfCurrentAccountDal>().As<ICurrencyAccountDal>();
         
         builder.RegisterType<MailParameterManager>().As<IMailParameterService>();
         builder.RegisterType<EfMailParameter>().As<IMailParameterDal>();

@@ -1,6 +1,6 @@
 namespace Business.Abstract;
 
-public interface ICurrencyService
+public interface ICurrentService
 {
     
 }

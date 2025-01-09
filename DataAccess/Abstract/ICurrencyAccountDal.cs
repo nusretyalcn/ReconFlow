@@ -3,7 +3,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Abstract;
 
-public interface ICurrencyAccountDal: IEntityRepository<CurrencyAccount>
+public interface ICurrencyAccountDal: IEntityRepository<CurrentAccount>
 {
     
 }

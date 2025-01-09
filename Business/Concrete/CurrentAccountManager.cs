@@ -3,11 +3,11 @@ using DataAccess.Abstract;
 
 namespace Business.Concrete;
 
-public class CurrencyAccountManager:ICurrencyAccountService
+public class CurrentAccountManager:ICurrentAccountService
 {
     private readonly ICurrencyAccountDal _currencyAccountDal;
 
-    public CurrencyAccountManager(ICurrencyAccountDal currencyAccountDal)
+    public CurrentAccountManager(ICurrencyAccountDal currencyAccountDal)
     {
         _currencyAccountDal = currencyAccountDal;
     }
