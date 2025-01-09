@@ -31,17 +31,21 @@ public class CompanyManager:ICompanyService
     [TransactionScopeAspect]
     public IResult Add(CompanyDto companyDto)
     {
-        BusinessRules.Run(IsCompanyExists(companyDto.Company));
+        BusinessRules.Run(IsCompanyExists(companyDto.Companies));
 
-        _companyDal.Add(companyDto.Company);
-        UserCompany userCompany = new UserCompany()
+        foreach (var company in companyDto.Companies)
         {
-            UserId = companyDto.UserId,
-            CompanyId = companyDto.Company.Id,
-            AddedDate = DateTime.Now,
-            IsActive = true
-        };
-        _userCompanyDal.Add(userCompany);
+            _companyDal.Add(company);
+            UserCompany userCompany = new UserCompany()
+            {
+                UserId = companyDto.UserId,
+                CompanyId = company.Id,
+                AddedDate = DateTime.Now,
+                IsActive = true
+            };
+            _userCompanyDal.Add(userCompany);
+        }
+
         return new SuccessResult(Messages.CompanyAdded);
     }
 
@@ -65,17 +69,21 @@ public class CompanyManager:ICompanyService
         return new SuccessDataResult<Company>(_companyDal.Get(c => c.Id == companyId));
     }
     
-    private IResult IsCompanyExists(Company company)
+    private IResult IsCompanyExists(List<Company> companies)
     {
-        var result = _companyDal.GetAll(p => p.IsActive == true 
-                             && p.TaxDepartment == company.TaxDepartment 
-                             && p.TaxNumber == company.TaxNumber ).Any();
-        
-        if (result)
+        foreach (var company in companies)
         {
-            return new ErrorResult("Company already exists");
+            var result = _companyDal.GetAll(p => p.IsActive == true 
+                                                 && p.TaxDepartment == company.TaxDepartment 
+                                                 && p.TaxNumber == company.TaxNumber ).Any();
+        
+            if (result)
+            {
+                return new ErrorResult("Company already exists");
+            }
+            
         }
-
         return new SuccessResult();
+
     }
 }

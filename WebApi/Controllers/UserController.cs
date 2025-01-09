@@ -43,9 +43,9 @@ namespace WebApplication1.Controllers
         }
         
         [HttpGet("getusercompanies")]
-        public IActionResult GetByEmail(User user)
+        public IActionResult GetUserCompanies(int userId)
         {
-            var result = _userService.GetUserCompanies(user);
+            var result = _userService.GetUserCompanies(userId);
             if (result.Success)
             {
                 return Ok(result);

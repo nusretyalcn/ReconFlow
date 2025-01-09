@@ -9,6 +9,7 @@ using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using FluentValidation;
 
 namespace Business.Concrete;
@@ -55,14 +56,14 @@ public class UserManager:IUserService
         return new SuccessDataResult<User>(_userDal.Get(p => p.Email == email));
     }
     
-    public IDataResult<List<User>> GetAll()
+    public IDataResult<List<UserDto>> GetAll()
     {
-        return new SuccessDataResult<List<User>>(_userDal.GetAll());
+        return new SuccessDataResult<List<UserDto>>(_userDal.GetAllUsers());
     }
     
-    public IDataResult<List<Company>> GetUserCompanies(User user)
+    public IDataResult<List<Company>> GetUserCompanies(int userId)
     {
-        return new SuccessDataResult<List<Company>>(_userDal.GetUserCompanies(user));
+        return new SuccessDataResult<List<Company>>(_userDal.GetUserCompanies(userId));
     }
     
     public IResult IsUserExist(User user)

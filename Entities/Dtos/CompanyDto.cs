@@ -7,5 +7,5 @@ namespace Entities.Dtos;
 public class CompanyDto:IDto
 {
     public int UserId { get; set; }
-    public Company Company { get; set; }
+    public List<Company> Companies { get; set; }
 }
