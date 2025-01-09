@@ -1,6 +1,7 @@
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.CrossCutingConserns.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Business;
@@ -23,14 +24,15 @@ public class UserManager:IUserService
         return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
     }
 
+    [ValidationAspect(typeof(UserValidator))]
     public IResult Add(User user)
     {
-        ValidationTool.Validate(new UserValidator(), user);
         BusinessRules.Run(IsUserExist(user));
         _userDal.Add(user);
         return new SuccessResult();
     }
 
+    [ValidationAspect(typeof(UserValidator))]
     public IResult Update(User user)
     {
         _userDal.Update(user);
