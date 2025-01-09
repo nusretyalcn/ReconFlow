@@ -1,5 +1,7 @@
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCutingConserns.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -22,6 +24,7 @@ public class CompanyManager:ICompanyService
 
     public IResult Add(Company company)
     {
+        ValidationTool.Validate(new CompanyValidator(), company);
         BusinessRules.Run(IsCompanyExists(company));
         company.AddedDate = DateTime.Now;
         company.IsActive = true;

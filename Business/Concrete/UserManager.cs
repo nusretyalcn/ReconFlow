@@ -1,9 +1,12 @@
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCutingConserns.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using FluentValidation;
 
 namespace Business.Concrete;
 
@@ -22,8 +25,21 @@ public class UserManager:IUserService
 
     public IResult Add(User user)
     {
+        ValidationTool.Validate(new UserValidator(), user);
         BusinessRules.Run(IsUserExist(user));
         _userDal.Add(user);
+        return new SuccessResult();
+    }
+
+    public IResult Update(User user)
+    {
+        _userDal.Update(user);
+        return new SuccessResult();
+    }
+
+    public IResult Delete(User user)
+    {
+        _userDal.Delete(user);
         return new SuccessResult();
     }
 
