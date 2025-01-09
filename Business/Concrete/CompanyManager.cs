@@ -8,15 +8,18 @@ using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 
 namespace Business.Concrete;
 
 public class CompanyManager:ICompanyService
 {
     private readonly ICompanyDal _companyDal;
-    public CompanyManager(ICompanyDal companyDal)
+    private readonly IUserCompanyDal _userCompanyDal;
+    public CompanyManager(ICompanyDal companyDal, IUserCompanyDal userCompanyDal)
     {
         _companyDal = companyDal;
+        _userCompanyDal = userCompanyDal;
     }
 
     public IDataResult<List<Company>> GetAll()
@@ -26,12 +29,19 @@ public class CompanyManager:ICompanyService
 
     [ValidationAspect(typeof(CompanyValidator))]
     [TransactionScopeAspect]
-    public IResult Add(Company company)
+    public IResult Add(CompanyDto companyDto)
     {
-        BusinessRules.Run(IsCompanyExists(company));
-        company.AddedDate = DateTime.Now;
-        company.IsActive = true;
-        _companyDal.Add(company);
+        BusinessRules.Run(IsCompanyExists(companyDto.Company));
+
+        _companyDal.Add(companyDto.Company);
+        UserCompany userCompany = new UserCompany()
+        {
+            UserId = companyDto.UserId,
+            CompanyId = companyDto.Company.Id,
+            AddedDate = DateTime.Now,
+            IsActive = true
+        };
+        _userCompanyDal.Add(userCompany);
         return new SuccessResult(Messages.CompanyAdded);
     }
 
@@ -54,7 +64,7 @@ public class CompanyManager:ICompanyService
     {
         return new SuccessDataResult<Company>(_companyDal.Get(c => c.Id == companyId));
     }
-
+    
     private IResult IsCompanyExists(Company company)
     {
         var result = _companyDal.GetAll(p => p.IsActive == true 

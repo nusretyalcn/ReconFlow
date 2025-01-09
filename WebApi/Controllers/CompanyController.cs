@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,9 +32,9 @@ namespace WebApplication1.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public IActionResult Add(Company company)
+        public IActionResult Add(CompanyDto companyDto)
         {
-            var result = _companyService.Add(company);
+            var result = _companyService.Add(companyDto);
             if (result.Success)
             {
                 return Ok(result);

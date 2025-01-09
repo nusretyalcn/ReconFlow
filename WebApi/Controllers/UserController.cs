@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Core.Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,17 @@ namespace WebApplication1.Controllers
         public IActionResult GetByEmail(string email)
         {
             var result = _userService.GetByEmail(email);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        
+        [HttpGet("getusercompanies")]
+        public IActionResult GetByEmail(User user)
+        {
+            var result = _userService.GetUserCompanies(user);
             if (result.Success)
             {
                 return Ok(result);

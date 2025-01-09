@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Context;
@@ -7,5 +8,4 @@ namespace DataAccess.Concrete.EntityFramework;
 
 public class EfUserCompanyDal:EfEntityRepositoryBase<UserCompany,EfDbContext>,IUserCompanyDal
 {
-    
 }

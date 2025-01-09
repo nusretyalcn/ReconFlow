@@ -44,6 +44,9 @@ public class AutofacBusinessModule : Module
         
         builder.RegisterType<UserManager>().As<IUserService>();
         builder.RegisterType<EfUserDal>().As<IUserDal>();
+        
+        builder.RegisterType<UserCompanyManager>().As<IUserCompanyService>();
+        builder.RegisterType<EfUserCompanyDal>().As<IUserCompanyDal>();
 
         
         
