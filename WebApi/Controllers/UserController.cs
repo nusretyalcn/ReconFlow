@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
-using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,29 +10,30 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly ICompanyService _companyService;
+        private readonly IUserService _userService;
 
-        public CompanyController(ICompanyService companyService)
+        public UserController(IUserService userService)
         {
-            _companyService = companyService;
+            _userService = userService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _companyService.GetAll();
+            var result = _userService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpPost("add")]
-        public IActionResult Add(Company company)
+
+        [HttpGet("getbyemail")]
+        public IActionResult GetByEmail(string email)
         {
-            var result = _companyService.Add(company);
+            var result = _userService.GetByEmail(email);
             if (result.Success)
             {
                 return Ok(result);
