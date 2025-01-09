@@ -1,6 +1,7 @@
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCutingConserns.Validation;
 using Core.Entities.Concrete;
@@ -25,6 +26,7 @@ public class UserManager:IUserService
     }
 
     [ValidationAspect(typeof(UserValidator))]
+    [TransactionScopeAspect]
     public IResult Add(User user)
     {
         BusinessRules.Run(IsUserExist(user));
@@ -32,6 +34,7 @@ public class UserManager:IUserService
         return new SuccessResult();
     }
 
+    [TransactionScopeAspect]
     [ValidationAspect(typeof(UserValidator))]
     public IResult Update(User user)
     {
@@ -39,6 +42,7 @@ public class UserManager:IUserService
         return new SuccessResult();
     }
 
+    [TransactionScopeAspect]
     public IResult Delete(User user)
     {
         _userDal.Delete(user);

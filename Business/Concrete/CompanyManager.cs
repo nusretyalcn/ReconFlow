@@ -1,6 +1,7 @@
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCutingConserns.Validation;
 using Core.Utilities.Business;
@@ -24,6 +25,7 @@ public class CompanyManager:ICompanyService
     }
 
     [ValidationAspect(typeof(CompanyValidator))]
+    [TransactionScopeAspect]
     public IResult Add(Company company)
     {
         BusinessRules.Run(IsCompanyExists(company));
@@ -33,6 +35,7 @@ public class CompanyManager:ICompanyService
         return new SuccessResult(Messages.CompanyAdded);
     }
 
+    [TransactionScopeAspect]
     public IResult Delete(Company company)
     {
         _companyDal.Delete(company);
@@ -40,6 +43,7 @@ public class CompanyManager:ICompanyService
     }
 
     [ValidationAspect(typeof(CompanyValidator))]
+    [TransactionScopeAspect]
     public IResult Update(Company company)
     {
         _companyDal.Update(company);
