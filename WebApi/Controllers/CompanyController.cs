@@ -40,5 +40,38 @@ namespace WebApplication1.Controllers
             }
             return BadRequest(result);
         }
+        
+        [HttpPost("update")]
+        public IActionResult Update(Company company)
+        {
+            var result = _companyService.Update(company);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("delete")]
+        public IActionResult Delete(Company company)
+        {
+            var result = _companyService.Delete(company);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
+        {
+            var result = _companyService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

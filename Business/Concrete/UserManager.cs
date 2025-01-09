@@ -23,8 +23,6 @@ public class UserManager:IUserService
     public IResult Add(User user)
     {
         BusinessRules.Run(IsUserExist(user));
-        user.AddedDate = DateTime.Now;
-        user.IsActive = true;
         _userDal.Add(user);
         return new SuccessResult();
     }
