@@ -27,7 +27,7 @@ public class CompanyManager:ICompanyService
         return new SuccessDataResult<List<Company>>(_companyDal.GetAll(p=>p.IsActive==true), Messages.CompaniesListed);
     }
 
-    [ValidationAspect(typeof(CompanyValidator))]
+    [ValidationAspect(typeof(CompanyDtoValidator))]
     [TransactionScopeAspect]
     public IResult Add(CompanyDto companyDto)
     {
@@ -53,7 +53,7 @@ public class CompanyManager:ICompanyService
     public IResult Delete(CompanyDto companyDto)
     {
         var companyIds = companyDto.Companies.Select(c => c.Id).ToList();
-        var userCompaniesToUpdate = _userCompanyService.GetAll().Data.Where(company => companyIds.Contains(company.Id)).ToList();
+        var userCompaniesToUpdate = _userCompanyService.GetAll().Data.Where(p => companyIds.Contains(p.Id)).ToList();
         var companiesToUpdate = _companyDal.GetAll(p=>companyIds.Contains(p.Id) && p.IsActive == true);
 
         foreach (var company in companiesToUpdate)
