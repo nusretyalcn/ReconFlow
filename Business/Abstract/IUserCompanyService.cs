@@ -11,4 +11,5 @@ public interface IUserCompanyService
     IResult Delete(UserCompany userCompany);
     IResult Update(UserCompany userCompany);
     IDataResult<UserCompany> GetById(int companyId);
+    IResult UpdateRange(List<UserCompany> userCompaniesToUpdate);
 }

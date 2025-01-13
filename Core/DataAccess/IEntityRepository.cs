@@ -10,4 +10,7 @@ public interface IEntityRepository<T> where T : class, IEntity,new()
     void Add(T entity);
     void Update(T entity);
     void Delete(T entity);
+    void AddRange(IEnumerable<T> entities);
+    void UpdateRange(IEnumerable<T> entities);
+    void DeleteRange(IEnumerable<T> entities);
 }

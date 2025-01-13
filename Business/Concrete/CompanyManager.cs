@@ -15,11 +15,11 @@ namespace Business.Concrete;
 public class CompanyManager:ICompanyService
 {
     private readonly ICompanyDal _companyDal;
-    private readonly IUserCompanyDal _userCompanyDal;
-    public CompanyManager(ICompanyDal companyDal, IUserCompanyDal userCompanyDal)
+    private readonly IUserCompanyService _userCompanyService;
+    public CompanyManager(ICompanyDal companyDal, IUserCompanyService userCompanService)
     {
         _companyDal = companyDal;
-        _userCompanyDal = userCompanyDal;
+        _userCompanyService = userCompanService;
     }
 
     public IDataResult<List<Company>> GetAll()
@@ -43,16 +43,32 @@ public class CompanyManager:ICompanyService
                 AddedDate = DateTime.Now,
                 IsActive = true
             };
-            _userCompanyDal.Add(userCompany);
+            _userCompanyService.Add(userCompany);
         }
 
         return new SuccessResult(Messages.CompanyAdded);
     }
 
     [TransactionScopeAspect]
-    public IResult Delete(Company company)
+    public IResult Delete(CompanyDto companyDto)
     {
-        _companyDal.Delete(company);
+        var companyIds = companyDto.Companies.Select(c => c.Id).ToList();
+        var userCompaniesToUpdate = _userCompanyService.GetAll().Data.Where(company => companyIds.Contains(company.Id)).ToList();
+        var companiesToUpdate = _companyDal.GetAll(p=>companyIds.Contains(p.Id) && p.IsActive == true);
+
+        foreach (var company in companiesToUpdate)
+        {
+            company.IsActive = false;
+        }
+
+        foreach (var userCompany in userCompaniesToUpdate)
+        {
+            userCompany.IsActive = false;
+        }
+        
+        _userCompanyService.UpdateRange(userCompaniesToUpdate);
+        _companyDal.UpdateRange(companiesToUpdate);
+        
         return new SuccessResult(Messages.CompanyDeleted);
     }
 

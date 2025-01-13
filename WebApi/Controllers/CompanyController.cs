@@ -54,7 +54,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Company company)
+        public IActionResult Delete(CompanyDto company)
         {
             var result = _companyService.Delete(company);
             if (result.Success)

@@ -55,4 +55,31 @@ where TContext : DbContext,new()
             context.SaveChanges();
         }
     }
+
+    public void AddRange(IEnumerable<TEntity> entities)
+    {
+        using (TContext context = new TContext())
+        {
+            context.Set<TEntity>().AddRange(entities);
+            context.SaveChanges();
+        }
+    }
+
+    public void UpdateRange(IEnumerable<TEntity> entities)
+    {
+        using (TContext context = new TContext())
+        {
+            context.Set<TEntity>().UpdateRange(entities);
+            context.SaveChanges();
+        }
+    }
+
+    public void DeleteRange(IEnumerable<TEntity> entities)
+    {
+        using (TContext context = new TContext())
+        {
+            context.Set<TEntity>().RemoveRange(entities);
+            context.SaveChanges();
+        }
+    }
 }

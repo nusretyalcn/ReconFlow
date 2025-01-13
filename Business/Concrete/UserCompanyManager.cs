@@ -7,7 +7,7 @@ namespace Business.Concrete;
 
 public class UserCompanyManager:IUserCompanyService
 {
-    private IUserCompanyDal _userCompanyDal;
+    private readonly IUserCompanyDal _userCompanyDal;
 
     public UserCompanyManager(IUserCompanyDal userCompanyDal)
     {
@@ -16,7 +16,7 @@ public class UserCompanyManager:IUserCompanyService
 
     public IDataResult<List<UserCompany>> GetAll()
     {
-        return new SuccessDataResult<List<UserCompany>>(_userCompanyDal.GetAll());
+        return new SuccessDataResult<List<UserCompany>>(_userCompanyDal.GetAll(p=>p.IsActive == true));
     }
 
     public IResult Add(UserCompany userCompany)
@@ -40,5 +40,11 @@ public class UserCompanyManager:IUserCompanyService
     public IDataResult<UserCompany> GetById(int companyId)
     {
         return new SuccessDataResult<UserCompany>(_userCompanyDal.Get(u => u.Id == companyId));
+    }
+
+    public IResult UpdateRange(List<UserCompany> userCompaniesToUpdate)
+    {
+        _userCompanyDal.UpdateRange(userCompaniesToUpdate);
+        return new SuccessResult();
     }
 }
