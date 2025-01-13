@@ -31,8 +31,11 @@ public class CompanyManager:ICompanyService
     [TransactionScopeAspect]
     public IResult Add(CompanyDto companyDto)
     {
-        BusinessRules.Run(IsCompanyExists(companyDto.Companies));
-
+        IResult result = BusinessRules.Run(IsCompanyExists(companyDto.Companies));
+        if (result != null)
+        {
+            return result;
+        }
         foreach (var company in companyDto.Companies)
         {
             _companyDal.Add(company);
@@ -89,15 +92,14 @@ public class CompanyManager:ICompanyService
     {
         foreach (var company in companies)
         {
-            var result = _companyDal.GetAll(p => p.IsActive == true 
-                                                 && p.TaxDepartment == company.TaxDepartment 
-                                                 && p.TaxNumber == company.TaxNumber ).Any();
-        
+            var result = _companyDal.GetAll(p => p.IsActive == true &&
+                                                 p.Name == company.Name
+                                                 && p.TaxNumber == company.TaxNumber).Any();
+
             if (result)
             {
-                return new ErrorResult("Company already exists");
+                return new ErrorResult("Company already exists");   
             }
-            
         }
         return new SuccessResult();
 
