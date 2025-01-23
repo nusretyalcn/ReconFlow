@@ -5,9 +5,11 @@ namespace Entities.Concrete;
 public class AccountReconciliation:IEntity
 {
     public int Id { get; set; }
-    public int CompanyId { get; set; }
     public int CurrentAccountId { get; set; }
-    public int CurrentId { get; set; }
+    public string ReconciliationNo { get; set; }
+    public decimal TotalDebit { get; set; }
+    public decimal TotalCredit { get; set; }
+    public decimal Balance { get; set; }
     public DateTime StartingDate { get; set; }
     public DateTime EndingDate { get; set; }
     public bool? IsSendEmail { get; set; }

@@ -7,17 +7,17 @@ using Entities.Dtos;
 
 namespace DataAccess.Concrete.EntityFramework;
 
-public class EfUserDal:EfEntityRepositoryBase<User,EfDbContext>,IUserDal
+public class EfUserDal : EfEntityRepositoryBase<User, EfDbContext>, IUserDal
 {
     public List<OperationClaim> GetClaims(User user)
     {
         using (var context = new EfDbContext())
         {
             var result = from operationClaim in context.OperationClaims
-                join userOperationClaim in context.UserOperationClaims 
+                join userOperationClaim in context.UserOperationClaims
                     on operationClaim.Id equals userOperationClaim.OperationClaimId
-                    where  userOperationClaim.UserId == user.Id
-                    select new OperationClaim
+                where userOperationClaim.UserId == user.Id
+                select new OperationClaim
                 {
                     Id = operationClaim.Id,
                     Name = operationClaim.Name,
@@ -25,13 +25,13 @@ public class EfUserDal:EfEntityRepositoryBase<User,EfDbContext>,IUserDal
             return result.ToList();
         }
     }
-    
+
     public List<Company> GetUserCompanies(int userId)
     {
         using (var context = new EfDbContext())
         {
             var result = from company in context.Companies
-                join userCompany in context.UserCompanies 
+                join userCompany in context.UserCompanies
                     on company.Id equals userCompany.CompanyId
                 where userCompany.UserId == userId
                       && userCompany.IsActive == true
@@ -44,11 +44,11 @@ public class EfUserDal:EfEntityRepositoryBase<User,EfDbContext>,IUserDal
                     TaxDepartment = company.TaxDepartment,
                     TaxNumber = company.TaxNumber,
                     IdentityNumber = company.IdentityNumber
-                    
                 };
             return result.ToList();
         }
     }
+
     public List<UserDto> GetAllUsers()
     {
         using (EfDbContext context = new EfDbContext())
@@ -66,7 +66,7 @@ public class EfUserDal:EfEntityRepositoryBase<User,EfDbContext>,IUserDal
                     MailConfirmDate = user.MailConfirmDate,
                     MailConfirmValue = user.MailConfirmValue
                 };
-                return result.ToList();
+            return result.ToList();
         }
     }
 }

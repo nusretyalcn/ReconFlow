@@ -19,4 +19,8 @@ public static class Messages
     public static readonly string CurrentUpdated = "Cari Güncellendi";
     public static readonly string CurrentDeleted = "Cari Silindi";
     public static readonly string CurrentListed = "Cari Listelendi";
+    public static readonly string AccountReconciliationAdded = "Cari mutabakatı Eklendi";
+    public static readonly string AccountReconciliationUpdated = "Cari mutabakatı güncellendi";
+    public static readonly string AccountReconciliationDeleted = "Cari mutabakatı silindi";
+    public static readonly string AccountReconciliationListed = "Cari mutabakatları listelendi";
 }
