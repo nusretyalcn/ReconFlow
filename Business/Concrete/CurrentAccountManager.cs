@@ -24,13 +24,19 @@ public class CurrentAccountManager:ICurrentAccountService
     public IResult Delete(CurrentAccount currentAccount)
     {
         _currentAccountDal.Delete(currentAccount);
-        return new SuccessResult(Messages.CurrencyAccountDeleted);
+        return new SuccessResult(Messages.CurrentAccountDeleted);
+    }
+
+    public IResult DeleteRange(List<CurrentAccount> currentAccounts)
+    {
+        _currentAccountDal.DeleteRange(currentAccounts);
+        return new SuccessResult(Messages.CurrentAccountDeleted);
     }
 
     public IResult Update(CurrentAccount currentAccount)
     {
         _currentAccountDal.Update(currentAccount);
-        return new SuccessResult(Messages.CurrencyAccountUpdated);
+        return new SuccessResult(Messages.CurrentAccountUpdated);
     }
 
     public IDataResult<List<CurrentAccount>> GetAll()
@@ -41,5 +47,10 @@ public class CurrentAccountManager:ICurrentAccountService
     public IDataResult<CurrentAccount> GetById(int id)
     {
         return new SuccessDataResult<CurrentAccount>(_currentAccountDal.Get(c => c.Id == id));
+    }
+
+    public IDataResult<List<CurrentAccount>> GetByCurrentId(int currentId)
+    {
+        return new SuccessDataResult<List<CurrentAccount>>(_currentAccountDal.GetAll(c => c.CurrentId == currentId));
     }
 }

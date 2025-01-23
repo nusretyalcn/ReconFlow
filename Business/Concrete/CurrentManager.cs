@@ -1,5 +1,8 @@
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Transaction;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -10,24 +13,34 @@ namespace Business.Concrete;
 public class CurrentManager:ICurrentService
 {
     private readonly ICurrentDal _currentDal;
+    private readonly ICurrentAccountService _currentAccountService;
 
-    public CurrentManager(ICurrentDal currentDal)
+    public CurrentManager(ICurrentDal currentDal, ICurrentAccountService currentAccountService)
     {
         _currentDal = currentDal;
+        _currentAccountService = currentAccountService;
     }
 
+    [TransactionScopeAspect]
+    [ValidationAspect(typeof(CurrentValidator))]
     public IResult Add(Current current)
     {
         _currentDal.Add(current);
         return new SuccessResult(Messages.CurrentAdded);
     }
 
+    [TransactionScopeAspect]
+    [ValidationAspect(typeof(CurrentValidator))]
     public IResult Delete(Current current)
     {
+        var currentAccounts= _currentAccountService.GetByCurrentId(current.Id).Data;
+        _currentAccountService.DeleteRange(currentAccounts);
         _currentDal.Delete(current);
         return new SuccessResult(Messages.CurrentDeleted);
     }
 
+    [TransactionScopeAspect]
+    [ValidationAspect(typeof(CurrentValidator))]
     public IResult Update(Current current)
     {
         _currentDal.Update(current);

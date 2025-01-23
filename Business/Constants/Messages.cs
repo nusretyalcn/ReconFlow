@@ -12,9 +12,9 @@ public static class Messages
     public static readonly string AuthorizationDenied = "Yetkiniz yok";
     public static readonly string UserExist = "Kullanıcı zaten mevcut";
     public static readonly string CurrencyAccountAdded = "Cari hesap Eklendi";
-    public static readonly string CurrencyAccountDeleted = "Cari hesap Silindi";
-    public static readonly string CurrencyAccountUpdated = "Cari hesap Güncellendi";
-    public static readonly string CurrencyAccountListed = "Cari hesaplar listelendi";
+    public static readonly string CurrentAccountDeleted = "Cari hesap Silindi";
+    public static readonly string CurrentAccountUpdated = "Cari hesap Güncellendi";
+    public static readonly string CurrentAccountListed = "Cari hesaplar listelendi";
     public static readonly string CurrentAdded = "Cari Eklendi";
     public static readonly string CurrentUpdated = "Cari Güncellendi";
     public static readonly string CurrentDeleted = "Cari Silindi";
