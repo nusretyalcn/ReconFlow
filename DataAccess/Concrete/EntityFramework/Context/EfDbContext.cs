@@ -21,8 +21,8 @@ public class EfDbContext:DbContext
     public DbSet<BaBsReconciliation> BaBsReconciliations { get; set; }
     public DbSet<BaBsReconciliationDetail> BaBsReconciliationDetails { get; set; }
     public DbSet<Company> Companies { get; set; }
-    public DbSet<Current> Currencies { get; set; }
-    public DbSet<CurrentAccount> CurrencyAccounts { get; set; }
+    public DbSet<Current> Currents { get; set; }
+    public DbSet<CurrentAccount> CurrentAccounts { get; set; }
     public DbSet<MailParameter> MailParameters { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserCompany> UserCompanies { get; set; }
