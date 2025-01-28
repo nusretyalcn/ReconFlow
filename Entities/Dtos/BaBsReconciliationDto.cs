@@ -1,8 +1,6 @@
-using Core.Entities;
+namespace Entities.Dtos;
 
-namespace Entities.Concrete;
-
-public class BaBsReconciliation:IEntity
+public class BaBsReconciliationDto
 {
     public int Id { get; set; }
     public int CurrentAccountId { get; set; }
@@ -18,5 +16,6 @@ public class BaBsReconciliation:IEntity
     public string? ResultNote { get; set; }
     public DateTime AddedDate { get; set; }
     public bool IsActive { get; set; }
-    
+    public string Description { get; set; }
+    public decimal Amount { get; set; }
 }

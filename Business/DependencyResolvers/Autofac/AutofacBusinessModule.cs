@@ -37,8 +37,6 @@ public class AutofacBusinessModule : Module
         builder.RegisterType<CurrentAccountManager>().As<ICurrentAccountService>();
         builder.RegisterType<EfCurrentAccountDal>().As<ICurrentAccountDal>();
         
-        builder.RegisterType<MailParameterManager>().As<IMailParameterService>();
-        builder.RegisterType<EfMailParameter>().As<IMailParameterDal>();
 
         builder.RegisterType<AuthManager>().As<IAuthService>();
         

@@ -1,9 +1,12 @@
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Transaction;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 
 namespace Business.Concrete;
 
@@ -17,6 +20,7 @@ public class AccountReconciliationManager : IAccountReconciliationService
     }
 
     [TransactionScopeAspect]
+    [ValidationAspect(typeof(AccountReconciliationValidator))]
     public IResult Add(AccountReconciliation accountReconciliation)
     {
         _accountReconciliationDal.Add(accountReconciliation);
@@ -31,6 +35,7 @@ public class AccountReconciliationManager : IAccountReconciliationService
     }
 
     [TransactionScopeAspect]
+    [ValidationAspect(typeof(AccountReconciliationValidator))]
     public IResult Update(AccountReconciliation accountReconciliation)
     {
         _accountReconciliationDal.Update(accountReconciliation);
@@ -55,5 +60,10 @@ public class AccountReconciliationManager : IAccountReconciliationService
     public IDataResult<List<AccountReconciliation>> GetAccountReconciliationByCompanyId(int companyId)
     {
         return new SuccessDataResult<List<AccountReconciliation>>(_accountReconciliationDal.GetAccountReconciliationByCompanyId(companyId));
+    }
+
+    public IDataResult<List<AccountReconciliationDto>> GetAccountReconciliationDetail(int id)
+    {
+        return new SuccessDataResult<List<AccountReconciliationDto>>(_accountReconciliationDal.GetAccountReconciliationDetail(id));
     }
 }

@@ -1,4 +1,5 @@
 using Business.Abstract;
+using Core.Aspects.Autofac.Transaction;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,6 +20,7 @@ public class UserCompanyManager:IUserCompanyService
         return new SuccessDataResult<List<UserCompany>>(_userCompanyDal.GetAll(p=>p.IsActive == true));
     }
 
+    [TransactionScopeAspect]
     public IResult Add(UserCompany userCompany)
     {
         _userCompanyDal.Add(userCompany);
@@ -31,6 +33,7 @@ public class UserCompanyManager:IUserCompanyService
         return new SuccessResult();
     }
 
+    [TransactionScopeAspect]
     public IResult Update(UserCompany userCompany)
     {
         _userCompanyDal.Update(userCompany);
