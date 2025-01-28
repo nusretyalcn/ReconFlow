@@ -8,7 +8,6 @@ public class CoreModule:ICoreModule
 {
     public void Load(IServiceCollection services)
     {
-        services.AddMemoryCache();
-        services.AddSingleton<IHttpContextAccessor, IHttpContextAccessor>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
     }
 }

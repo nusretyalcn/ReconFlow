@@ -4,11 +4,11 @@ namespace Core.Utilities.IoC;
 
 public static class ServiceTool
 {
-    public static IServiceProvider ServiceProvider { get; set; }
+    public static IServiceProvider ServiceProvider { get; private set; }
 
-    public static IServiceCollection CreateServiceCollection(IServiceCollection serviceCollection)
+    public static IServiceCollection CreateServiceCollection(IServiceCollection services)
     {
-        ServiceProvider = serviceCollection.BuildServiceProvider();
-        return serviceCollection;
+        ServiceProvider = services.BuildServiceProvider();
+        return services;
     }
 }
