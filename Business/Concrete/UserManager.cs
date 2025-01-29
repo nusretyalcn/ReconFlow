@@ -1,6 +1,7 @@
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCutingConserns.Validation;
@@ -29,6 +30,7 @@ public class UserManager:IUserService
 
     [ValidationAspect(typeof(UserValidator))]
     [TransactionScopeAspect]
+    [CacheRemoveAspect("IUserService.Get")]
     public IResult Add(User user)
     {
         BusinessRules.Run(IsUserExist(user));
@@ -38,6 +40,7 @@ public class UserManager:IUserService
 
     [TransactionScopeAspect]
     [ValidationAspect(typeof(UserValidator))]
+    [CacheRemoveAspect("IUserService.Get")]
     public IResult Update(User user)
     {
         _userDal.Update(user);
@@ -45,22 +48,26 @@ public class UserManager:IUserService
     }
 
     [TransactionScopeAspect]
+    [CacheRemoveAspect("IUserService.Get")]
     public IResult Delete(User user)
     {
         _userDal.Delete(user);
         return new SuccessResult();
     }
 
+    [CacheAspect]
     public IDataResult<User> GetByEmail(string email)
     {
         return new SuccessDataResult<User>(_userDal.Get(p => p.Email == email));
     }
     
+    [CacheAspect]
     public IDataResult<List<UserDto>> GetAll()
     {
         return new SuccessDataResult<List<UserDto>>(_userDal.GetAllUsers());
     }
     
+    [CacheAspect]
     public IDataResult<List<Company>> GetUserCompanies(int userId)
     {
         return new SuccessDataResult<List<Company>>(_userDal.GetUserCompanies(userId));
