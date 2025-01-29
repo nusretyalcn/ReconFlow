@@ -1,4 +1,5 @@
 using Business.Abstract;
+using Business.BusinessAspects;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -24,6 +25,7 @@ public class CompanyManager:ICompanyService
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<Company>> GetAll()
     {
         return new SuccessDataResult<List<Company>>(_companyDal.GetAll(p=>p.IsActive==true), Messages.CompaniesListed);
@@ -32,6 +34,7 @@ public class CompanyManager:ICompanyService
     [ValidationAspect(typeof(CompanyDtoValidator))]
     [TransactionScopeAspect]
     [CacheRemoveAspect("ICompanyService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Add(CompanyDto companyDto)
     {
         IResult result = BusinessRules.Run(IsCompanyExists(companyDto.Companies));
@@ -57,6 +60,7 @@ public class CompanyManager:ICompanyService
 
     [TransactionScopeAspect]
     [CacheRemoveAspect("ICompanyService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Delete(CompanyDto companyDto)
     {
         var companyIds = companyDto.Companies.Select(c => c.Id).ToList();
@@ -82,6 +86,7 @@ public class CompanyManager:ICompanyService
     [ValidationAspect(typeof(CompanyValidator))]
     [TransactionScopeAspect]
     [CacheRemoveAspect("ICompanyService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Update(Company company)
     {
         _companyDal.Update(company);
@@ -89,6 +94,7 @@ public class CompanyManager:ICompanyService
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<Company> GetById(int companyId)
     {
         return new SuccessDataResult<Company>(_companyDal.Get(c => c.Id == companyId));

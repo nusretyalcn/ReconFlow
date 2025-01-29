@@ -1,4 +1,5 @@
 using Business.Abstract;
+using Business.BusinessAspects;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Transaction;
@@ -21,6 +22,7 @@ public class AccountReconciliationDetailManager: IAccountReconciliationDetailSer
     [TransactionScopeAspect]
     [ValidationAspect(typeof(AccountReconciliationDetailValidator))]
     [CacheRemoveAspect("IAccountReconciliationDetailService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Add(AccountReconciliationDetail accountReconciliationDetail)
     {
         _accountReconciliationDetailDal.Add(accountReconciliationDetail);
@@ -30,6 +32,7 @@ public class AccountReconciliationDetailManager: IAccountReconciliationDetailSer
     [TransactionScopeAspect]
     [ValidationAspect(typeof(AccountReconciliationDetailValidator))]
     [CacheRemoveAspect("IAccountReconciliationDetailService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Delete(AccountReconciliationDetail accountReconciliationDetail)
     {
         _accountReconciliationDetailDal.Delete(accountReconciliationDetail);
@@ -39,6 +42,7 @@ public class AccountReconciliationDetailManager: IAccountReconciliationDetailSer
     [TransactionScopeAspect]
     [ValidationAspect(typeof(AccountReconciliationDetailValidator))]
     [CacheRemoveAspect("IAccountReconciliationDetailService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Update(AccountReconciliationDetail accountReconciliationDetail)
     {
         _accountReconciliationDetailDal.Update(accountReconciliationDetail);
@@ -46,18 +50,21 @@ public class AccountReconciliationDetailManager: IAccountReconciliationDetailSer
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<AccountReconciliationDetail>> GetAll()
     {
         return new SuccessDataResult<List<AccountReconciliationDetail>>(_accountReconciliationDetailDal.GetAll());
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<AccountReconciliationDetail> GetById(int id)
     {
         return new SuccessDataResult<AccountReconciliationDetail>(_accountReconciliationDetailDal.Get(c => c.Id == id));
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<AccountReconciliationDetail>> GetByAccountReconciliationId(int accountReconciliationId)
     {
         return new SuccessDataResult<List<AccountReconciliationDetail>>(_accountReconciliationDetailDal.GetAll(c => c.AccountReconciliationId == accountReconciliationId));

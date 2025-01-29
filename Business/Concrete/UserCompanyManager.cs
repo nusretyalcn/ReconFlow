@@ -1,4 +1,5 @@
 using Business.Abstract;
+using Business.BusinessAspects;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Transaction;
 using Core.Utilities.Results;
@@ -24,6 +25,7 @@ public class UserCompanyManager:IUserCompanyService
 
     [TransactionScopeAspect]
     [CacheRemoveAspect("IUserCompanyService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Add(UserCompany userCompany)
     {
         _userCompanyDal.Add(userCompany);
@@ -32,6 +34,7 @@ public class UserCompanyManager:IUserCompanyService
 
     [TransactionScopeAspect]
     [CacheRemoveAspect("IUserCompanyService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Delete(UserCompany userCompany)
     {
         _userCompanyDal.Delete(userCompany);
@@ -40,6 +43,7 @@ public class UserCompanyManager:IUserCompanyService
 
     [TransactionScopeAspect]
     [CacheRemoveAspect("IUserCompanyService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Update(UserCompany userCompany)
     {
         _userCompanyDal.Update(userCompany);
@@ -47,12 +51,14 @@ public class UserCompanyManager:IUserCompanyService
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<UserCompany> GetById(int companyId)
     {
         return new SuccessDataResult<UserCompany>(_userCompanyDal.Get(u => u.Id == companyId));
     }
 
     [CacheRemoveAspect("IUserCompanyService.Get")]
+    [SecuredOperation("Admin")]
     public IResult UpdateRange(List<UserCompany> userCompaniesToUpdate)
     {
         _userCompanyDal.UpdateRange(userCompaniesToUpdate);

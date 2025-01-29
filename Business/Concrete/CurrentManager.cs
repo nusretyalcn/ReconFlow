@@ -1,4 +1,5 @@
 using Business.Abstract;
+using Business.BusinessAspects;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -25,6 +26,7 @@ public class CurrentManager:ICurrentService
     [TransactionScopeAspect]
     [ValidationAspect(typeof(CurrentValidator))]
     [CacheRemoveAspect("ICurrentService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Add(Current current)
     {
         _currentDal.Add(current);
@@ -34,6 +36,7 @@ public class CurrentManager:ICurrentService
     [TransactionScopeAspect]
     [ValidationAspect(typeof(CurrentValidator))]
     [CacheRemoveAspect("ICurrentService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Delete(Current current)
     {
         var currentAccounts= _currentAccountService.GetByCurrentId(current.Id).Data;
@@ -45,6 +48,7 @@ public class CurrentManager:ICurrentService
     [TransactionScopeAspect]
     [ValidationAspect(typeof(CurrentValidator))]
     [CacheRemoveAspect("ICurrentService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Update(Current current)
     {
         _currentDal.Update(current);
@@ -52,24 +56,28 @@ public class CurrentManager:ICurrentService
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<Current>> GetAll()
     {
         return new SuccessDataResult<List<Current>>(_currentDal.GetAll());
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<Current> GetById(int id)
     {
         return new SuccessDataResult<Current>(_currentDal.Get(u => u.Id == id));
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<Current>> GetCurrentByCompanyId(int companyId)
     {
         return new SuccessDataResult<List<Current>>(_currentDal.GetAll(u => u.CompanyId == companyId));
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<CurrentDetailDto>> GetCurrentDetails()
     {
         return new SuccessDataResult<List<CurrentDetailDto>>(_currentDal.GetCurrentDetails());

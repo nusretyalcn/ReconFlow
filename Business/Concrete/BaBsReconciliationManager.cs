@@ -1,4 +1,5 @@
 using Business.Abstract;
+using Business.BusinessAspects;
 using Business.Constants;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Transaction;
@@ -20,6 +21,7 @@ public class BaBsReconciliationManager:IBaBsReconciliationService
 
     [TransactionScopeAspect]
     [CacheRemoveAspect("IBaBsReconciliationService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Add(BaBsReconciliation bsReconciliation)
     {
         _baBsReconciliationDal.Add(bsReconciliation);
@@ -28,6 +30,7 @@ public class BaBsReconciliationManager:IBaBsReconciliationService
 
     [TransactionScopeAspect]
     [CacheRemoveAspect("IBaBsReconciliationService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Delete(BaBsReconciliation bsReconciliation)
     {
         _baBsReconciliationDal.Delete(bsReconciliation);
@@ -36,6 +39,7 @@ public class BaBsReconciliationManager:IBaBsReconciliationService
 
     [TransactionScopeAspect]
     [CacheRemoveAspect("IBaBsReconciliationService.Get")]
+    [SecuredOperation("Admin")]
     public IResult Update(BaBsReconciliation bsReconciliation)
     {
         _baBsReconciliationDal.Update(bsReconciliation);
@@ -43,30 +47,35 @@ public class BaBsReconciliationManager:IBaBsReconciliationService
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<BaBsReconciliation>> GetAll()
     {
         return new SuccessDataResult<List<BaBsReconciliation>>(_baBsReconciliationDal.GetAll());
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<BaBsReconciliation> GetById(int id)
     {
         return new SuccessDataResult<BaBsReconciliation>(_baBsReconciliationDal.Get(b => b.Id == id));
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<BaBsReconciliation>> GetByCurrentAccountId(int currentAccountId)
     {
         return new SuccessDataResult<List<BaBsReconciliation>>(_baBsReconciliationDal.GetAll(b => b.CurrentAccountId == currentAccountId));
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<BaBsReconciliation>> GetBaBsReconciliationByCompanyId(int companyId)
     {
         return new SuccessDataResult<List<BaBsReconciliation>>(_baBsReconciliationDal.GetBaBsReconciliationByCompanyId(companyId));
     }
 
     [CacheAspect]
+    [SecuredOperation("Get")]
     public IDataResult<List<BaBsReconciliationDto>> GetBaBsReconciliationDetail(int id)
     {
         return new SuccessDataResult<List<BaBsReconciliationDto>>(_baBsReconciliationDal.GetBaBsReconciliationDetail(id));
